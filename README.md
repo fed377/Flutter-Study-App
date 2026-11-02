@@ -72,7 +72,7 @@ There is a class diagram in [`out/uml/uml.svg`](out/uml/uml.svg), generated from
 **Prerequisites:** the [Flutter SDK](https://docs.flutter.dev/get-started/install) (Dart ≥ 3.4) and a Firebase project.
 
 ```bash
-git clone https://github.com/fedqq/Flutter-Study-App.git
+git clone https://github.com/fed377/Flutter-Study-App.git
 cd Flutter-Study-App
 flutter pub get
 ```
