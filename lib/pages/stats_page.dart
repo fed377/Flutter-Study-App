@@ -104,6 +104,7 @@ class _StatsPageState extends State<StatsPage> with SingleTickerProviderStateMix
     return <int>[total, learned];
   }
 
+  //Returns average score of last ten tests
   double getRecentScoresAverage() {
     DateTime fromString(String s) {
       final [String day, String month, String year] = s.split('/');
@@ -174,19 +175,22 @@ class _StatsPageState extends State<StatsPage> with SingleTickerProviderStateMix
         ),
       );
 
-  Widget buildTasksCard() => Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            buildText(
-              '${firestore_manager.tasksList.where((a) => a.dueDate == DateUtils.dateOnly(DateTime.now())).length} due today',
-            ),
-            buildText(
-              '${firestore_manager.tasksList.where((a) => a.dueDate.compareTo(DateUtils.dateOnly(DateTime.now())) > 0).length} overdue',
-            ),
-          ],
-        ),
-      );
+  Widget buildTasksCard() {
+    final today = DateUtils.dateOnly(DateTime.now());
+    final tasks = firestore_manager.tasksList;
+    final dueToday = tasks.where((a) => DateUtils.isSameDay(a.dueDate, today)).length;
+    final overdue = tasks.where((a) => DateUtils.dateOnly(a.dueDate).isBefore(today)).length;
+
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          buildText('$dueToday due today'),
+          buildText('$overdue overdue'),
+        ],
+      ),
+    );
+  }
 
   Row buildFirstRow() => Row(
         children: [buildStreakCard(), buildTasksCard()]
